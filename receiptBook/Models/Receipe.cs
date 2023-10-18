@@ -58,8 +58,13 @@ namespace receiptBook.Models
     // Image Model
     public class Image
     {
+        [JsonPropertyName("Id")]
         public int Id { get; set; }
+
+        [JsonPropertyName("Url")]
         public string Url { get; set; }
+        
+        [JsonPropertyName("RecipeId")]
         public int RecipeId { get; set; }
     }
 

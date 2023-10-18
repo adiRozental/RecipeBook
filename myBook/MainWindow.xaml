@@ -36,7 +36,9 @@
             </Button.RenderTransform>
         </Button>
         <TextBox x:Name="textBox" Grid.Column="1" HorizontalAlignment="Left" Margin="136,54,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="120" TextChanged="textBox_TextChanged" MouseLeave="textBox_MouseLeave" />
-        <Button x:Name="button1" Grid.Column="1" Content="Add Image" HorizontalAlignment="Left" Margin="45,30,0,0" Grid.Row="2" VerticalAlignment="Top" Height="37" Width="83"/>
+        <Button x:Name="button1" Grid.Column="1" Content="Add Image" HorizontalAlignment="Left" Margin="45,30,0,0" Grid.Row="2" VerticalAlignment="Top" Height="37" Width="83" Click="button1_ClickAsync"/>
         <Button x:Name="button2" Grid.Column="1" Content="Add Rating" HorizontalAlignment="Left" Margin="226,30,0,0" Grid.Row="2" VerticalAlignment="Top" Height="37" Width="96"/>
+        <Image x:Name="Image1" HorizontalAlignment="Left" Height="105" Margin="22,35,0,0" Grid.Row="1" VerticalAlignment="Top" Width="144"/>
+        <Button x:Name="selectButton" Content="Select Image" HorizontalAlignment="Left" Height="26" Margin="10,181,0,0" Grid.Row="1" VerticalAlignment="Top" Width="71" Click="selectButton_Click"/>
     </Grid>
 </Window>

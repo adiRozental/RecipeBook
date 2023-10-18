@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Microsoft.Win32;
+using receiptBook.Models;
+
 
 namespace myBook
 {
@@ -21,11 +25,13 @@ namespace myBook
     public partial class MainWindow : Window
     {
         private readonly RecipeService _recipeService;
+        private readonly ImageService _imageService;
 
         public MainWindow()
         {
             InitializeComponent();
             _recipeService = new RecipeService();
+            _imageService= new ImageService();
 
         }
 
@@ -89,6 +95,67 @@ namespace myBook
         private void textBox_MouseLeave(object sender, MouseEventArgs e)
         {
 
+        }
+
+        private async void button1_ClickAsync(object sender, RoutedEventArgs e)
+        {
+            //Image1.Source = new BitmapImage(new Uri("C:\\Users\\shira\\OneDrive\\Desktop\\SemesterB\\AOOP&D\\Tar9\\src\\WS1\\ws1uml.png"));
+            try
+            {
+                if(await _imageService.GetFoodImageUrlAsync("https://drive.google.com/drive/my-drive?q=parent:0AD_gZ1mIfsrqUk9PVA%20type:image", "green"))
+                {
+                    receiptBook.Models.Image image = new receiptBook.Models.Image
+                    {
+                        Id = 1,
+                        Url="",
+                        RecipeId = ((receiptBook.Models.Image)recipeDataGrid.SelectedItem).RecipeId
+                    };
+                }
+
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show($"Error: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+
+            }
+
+
+
+        }
+
+        private void selectButton_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog
+            {
+                InitialDirectory = "C:\\Users\\shira\\Source\\Repos\\receiptBook\\myBook\\images\\", //Environment.CurrentDirectory, // Set the initial directory to your project's root folder
+                Filter = "Image Files|*.jpg;*.png;*.bmp;*.jpeg|All Files|*.*",
+                Title = "Select a Photo"
+            };
+
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string selectedFilePath = openFileDialog.FileName;
+
+                // Check if the selected file exists
+                if (File.Exists(selectedFilePath))
+                {
+                    // Load the selected image and display it
+                    BitmapImage image = new BitmapImage();
+                    image.BeginInit();
+                    image.UriSource = new Uri(selectedFilePath);
+                    image.EndInit();
+
+                    // Assuming you have an Image control named "photoImage" in your XAML
+                    Image1.Source = image;
+
+                    // You can also save the selected file path for further use
+                    // string selectedFilePath = openFileDialog.FileName;
+                }
+                else
+                {
+                    MessageBox.Show("The selected file does not exist.");
+                }
+            }
         }
     }
 }

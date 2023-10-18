@@ -3,8 +3,10 @@ using receiptBook.Models;
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using System.Windows.Markup;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 public class RecipeService
@@ -30,7 +32,7 @@ public class RecipeService
         return recipes;
     }
     
-        public async Task<List<Recipe>> GetRecipesByKeyword(string str)
+    public async Task<List<Recipe>> GetRecipesByKeyword(string str)
     {
         try
         {
@@ -52,5 +54,26 @@ public class RecipeService
 
         
     }
+
+    public async Task SaveImage(Image image)
+    {
+       
+            var json = JsonConvert.SerializeObject(image);
+            var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+            // 5. Send an HTTP POST request
+            var response = await _httpClient.PostAsync("https://localhost:7154/api/image", content);
+
+            // Check if the request was successful
+            if (!response.IsSuccessStatusCode)
+            {
+                throw new Exception("Error: " + response.StatusCode);
+            }
+            
+        
+        
+    }
+   
+
     // Add more methods to handle other API endpoints (e.g., CreateRecipe, UpdateRecipe, DeleteRecipe, etc.)
 }
